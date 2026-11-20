@@ -1,11 +1,11 @@
 package com.example.personalblog.dto;
 
-import com.example.personalblog.enums.PostStatus;
-
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import com.example.personalblog.enums.PostStatus;
 
 public record PostListItem(
         Long id,

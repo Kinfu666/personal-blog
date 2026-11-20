@@ -1,9 +1,9 @@
 package com.example.personalblog.entity;
 
+import java.util.Locale;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
-
-import java.util.Locale;
 
 @MappedSuperclass
 public abstract class NamedEntity extends BaseEntity {

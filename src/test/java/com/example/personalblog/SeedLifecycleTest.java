@@ -3,6 +3,16 @@ package com.example.personalblog;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.sql.DriverManager;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.example.personalblog.dto.PostForm;
 import com.example.personalblog.enums.PostStatus;
 import com.example.personalblog.repository.CategoryRepository;
@@ -11,16 +21,6 @@ import com.example.personalblog.repository.PostRepository;
 import com.example.personalblog.repository.TagRepository;
 import com.example.personalblog.repository.UserRepository;
 import com.example.personalblog.service.PostService;
-
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.jdbc.core.JdbcTemplate;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.sql.DriverManager;
 
 class SeedLifecycleTest {
     @TempDir Path directory;

@@ -1,14 +1,14 @@
 package com.example.personalblog.repository;
 
-import com.example.personalblog.entity.Post;
-import com.example.personalblog.enums.PostStatus;
+import java.util.ArrayList;
+import java.util.Locale;
 
 import jakarta.persistence.criteria.Predicate;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.ArrayList;
-import java.util.Locale;
+import com.example.personalblog.entity.Post;
+import com.example.personalblog.enums.PostStatus;
 
 public final class PostSpecifications {
     private PostSpecifications() {}

@@ -1,9 +1,11 @@
 package com.example.personalblog.repository;
 
-import com.example.personalblog.entity.User;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.example.personalblog.entity.User;
+
 public interface UserRepository extends JpaRepository<User, Long> {
-    java.util.Optional<User> findByUsername(String username);
+    Optional<User> findByUsername(String username);
 }

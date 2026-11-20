@@ -1,16 +1,18 @@
 package com.example.personalblog.service;
 
+import java.net.URI;
+import java.util.LinkedHashSet;
+import java.util.Locale;
+import java.util.Set;
+import java.util.regex.Pattern;
+
 import org.commonmark.node.AbstractVisitor;
+import org.commonmark.node.Image;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 import org.springframework.stereotype.Service;
-
-import java.net.URI;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 @Service
 public class MarkdownService {
@@ -70,7 +72,7 @@ public class MarkdownService {
                 .accept(
                         new AbstractVisitor() {
                             @Override
-                            public void visit(org.commonmark.node.Image image) {
+                            public void visit(Image image) {
                                 if (isLocalImage(image.getDestination()))
                                     paths.add(image.getDestination());
                                 visitChildren(image);
@@ -91,7 +93,7 @@ public class MarkdownService {
                         && !value.contains("\\")
                         && !value.chars().anyMatch(c -> c < 32);
             return Set.of("http", "https", "mailto")
-                    .contains(uri.getScheme().toLowerCase(java.util.Locale.ROOT));
+                    .contains(uri.getScheme().toLowerCase(Locale.ROOT));
         } catch (IllegalArgumentException error) {
             return false;
         }

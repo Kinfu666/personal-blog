@@ -7,15 +7,15 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.example.personalblog.entity.User;
-import com.example.personalblog.repository.UserRepository;
-import com.example.personalblog.service.AdminService;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.env.MockEnvironment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.Optional;
+import com.example.personalblog.entity.User;
+import com.example.personalblog.repository.UserRepository;
+import com.example.personalblog.service.AdminService;
 
 class AdminPolicyTest {
     @Test

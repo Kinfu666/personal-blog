@@ -1,14 +1,20 @@
 package com.example.personalblog.controller;
 
-import com.example.personalblog.exception.NotFoundException;
+import java.util.Map;
+import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.ErrorResponse;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,8 +23,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import java.util.Map;
-import java.util.UUID;
+import com.example.personalblog.exception.NotFoundException;
 
 @ControllerAdvice
 public class WebExceptionHandler {
@@ -37,13 +42,12 @@ public class WebExceptionHandler {
     }
 
     @ExceptionHandler({
-        org.springframework.web.HttpRequestMethodNotSupportedException.class,
-        org.springframework.web.HttpMediaTypeNotSupportedException.class,
-        org.springframework.web.HttpMediaTypeNotAcceptableException.class
+        HttpRequestMethodNotSupportedException.class,
+        HttpMediaTypeNotSupportedException.class,
+        HttpMediaTypeNotAcceptableException.class
     })
-    public String invalidMethod(
-            Exception error, jakarta.servlet.http.HttpServletResponse response) {
-        response.setStatus(((org.springframework.web.ErrorResponse) error).getStatusCode().value());
+    public String invalidMethod(Exception error, HttpServletResponse response) {
+        response.setStatus(((ErrorResponse) error).getStatusCode().value());
         return "error";
     }
 

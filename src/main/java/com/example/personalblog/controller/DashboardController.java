@@ -1,10 +1,10 @@
 package com.example.personalblog.controller;
 
-import com.example.personalblog.service.DashboardService;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.example.personalblog.service.DashboardService;
 
 @Controller
 public class DashboardController {

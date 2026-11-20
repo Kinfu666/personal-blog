@@ -1,0 +1,391 @@
+{
+    "date": "2026-11-20",
+    "result": "PASS",
+    "scope": {
+        "checked_java_files": 60,
+        "main_java_files": 48,
+        "test_java_files": 11,
+        "script_java_files": 1,
+        "changed_java_files": 43,
+        "changed_main_java_files": 32,
+        "changed_test_java_files": 11,
+        "shortened_fqn_references": 103
+    },
+    "import_policy": {
+        "groups": [
+            "static",
+            "java",
+            "javax",
+            "jakarta",
+            "第三方套件",
+            "com.example.personalblog"
+        ],
+        "ordering": "各組依完整 import 名稱排序，組間一個空行",
+        "wildcards_allowed": false
+    },
+    "javac_audit": {
+        "result": "PASS",
+        "unused_imports": 0,
+        "duplicate_imports": 0,
+        "wildcard_imports": 0,
+        "remaining_fqns": [
+            {
+                "file": "src/main/java/com/example/personalblog/service/AdminService.java",
+                "type": "org.springframework.security.core.userdetails.User",
+                "conflict": "com.example.personalblog.entity.User"
+            }
+        ],
+        "bytecode_equivalence": {
+            "result": "PASS",
+            "identical_class_files": 64,
+            "compiler_flags": [
+                "--release",
+                "21",
+                "-proc:none",
+                "-g:none",
+                "-parameters"
+            ],
+            "note": "同一編譯環境下排除除錯資訊，比較正式程式、測試及產圖腳本的全部 class SHA-256，結果完全一致。"
+        }
+    },
+    "maven": {
+        "command": ".\\mvnw.cmd -B -ntp -Dmaven.repo.local=D:/personal-blog/.m2/repository clean verify",
+        "java": "21.0.11",
+        "maven": "3.9.15",
+        "result": "BUILD SUCCESS",
+        "elapsed_seconds": 30.125,
+        "summary": {
+            "tests": 28,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+        },
+        "suites": [
+            {
+                "name": "com.example.personalblog.AdminPolicyTest",
+                "tests": 2,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0
+            },
+            {
+                "name": "com.example.personalblog.ApiFailureTest",
+                "tests": 1,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0
+            },
+            {
+                "name": "com.example.personalblog.ContentTest",
+                "tests": 5,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0
+            },
+            {
+                "name": "com.example.personalblog.DatabaseTest",
+                "tests": 2,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0
+            },
+            {
+                "name": "com.example.personalblog.ErrorHandlingTest",
+                "tests": 3,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0
+            },
+            {
+                "name": "com.example.personalblog.FoundationTest",
+                "tests": 1,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0
+            },
+            {
+                "name": "com.example.personalblog.ImageTest",
+                "tests": 5,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0
+            },
+            {
+                "name": "com.example.personalblog.MarkdownTest",
+                "tests": 2,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0
+            },
+            {
+                "name": "com.example.personalblog.PublicQueryTest",
+                "tests": 1,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0
+            },
+            {
+                "name": "com.example.personalblog.SecurityTest",
+                "tests": 4,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0
+            },
+            {
+                "name": "com.example.personalblog.SeedLifecycleTest",
+                "tests": 2,
+                "failures": 0,
+                "errors": 0,
+                "skipped": 0
+            }
+        ],
+        "log": ".tools/import-qa/maven-clean-verify.log"
+    },
+    "jar_smoke": {
+        "command": "python -X utf8 scripts/jar-smoke.py --jar delivery/personal-blog-imports.jar",
+        "result": "PASS",
+        "checks": [
+            "JAR 首次初始化",
+            "每頁六篇",
+            "草稿與無效網址 404",
+            "真實 CSRF 403 頁面",
+            "登入與後台保護",
+            "HTTP 寫入",
+            "重啟不重置密碼",
+            "修改與刪除持久化",
+            "圖片雜湊不變",
+            "本地 Bootstrap 資源"
+        ],
+        "first_start": {
+            "posts": 15,
+            "categories": 4,
+            "tags": 10,
+            "images": 6,
+            "users": 1
+        },
+        "restart": {
+            "posts": 14,
+            "categories": 5,
+            "tags": 11,
+            "images": 6
+        },
+        "isolated_data_directory": "D:\\personal-blog\\target\\jar-smoke-08d7b55551844b73861018a56948520e",
+        "log": ".tools/import-qa/jar-smoke.log"
+    },
+    "diff_check": {
+        "command": "git diff --check",
+        "result": "PASS"
+    },
+    "changed_files": [
+        {
+            "path": "src/main/java/com/example/personalblog/config/AdminInitializer.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/config/DatabaseConfig.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/config/ImageReconciler.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/config/SecurityConfig.java",
+            "purpose": "統一 import 分組與排序，將 8 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/config/SeedInitializer.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/controller/AdminPostController.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/controller/ApiExceptionHandler.java",
+            "purpose": "統一 import 分組與排序，將 8 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/controller/DashboardController.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/controller/ImageApiController.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/controller/ImageController.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/controller/PublicController.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/controller/TaxonomyController.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/controller/WebExceptionHandler.java",
+            "purpose": "統一 import 分組與排序，將 5 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/dto/PostForm.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/dto/PostListItem.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/entity/BaseEntity.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/entity/NamedEntity.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/entity/Post.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/entity/UtcInstantConverter.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/repository/CategoryRepository.java",
+            "purpose": "統一 import 分組與排序，將 1 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/repository/ImageRepository.java",
+            "purpose": "統一 import 分組與排序，將 2 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/repository/PostRepository.java",
+            "purpose": "統一 import 分組與排序，將 12 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/repository/PostSpecifications.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/repository/TagRepository.java",
+            "purpose": "統一 import 分組與排序，將 1 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/repository/UserRepository.java",
+            "purpose": "統一 import 分組與排序，將 1 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/service/AdminService.java",
+            "purpose": "統一 import 分組與排序，將 1 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行；保留 Spring Security User 的 FQN，避免與 Entity User 同名"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/service/DashboardService.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/service/ImageService.java",
+            "purpose": "統一 import 分組與排序，將 4 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/service/MarkdownService.java",
+            "purpose": "統一 import 分組與排序，將 2 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/service/PostService.java",
+            "purpose": "統一 import 分組與排序，將 1 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/service/SeedService.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/main/java/com/example/personalblog/service/TaxonomyService.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/test/java/com/example/personalblog/AdminPolicyTest.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/test/java/com/example/personalblog/ApiFailureTest.java",
+            "purpose": "統一 import 分組與排序，將 4 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/test/java/com/example/personalblog/ContentTest.java",
+            "purpose": "統一 import 分組與排序，將 7 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/test/java/com/example/personalblog/DatabaseTest.java",
+            "purpose": "統一 import 分組與排序，將 3 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/test/java/com/example/personalblog/ErrorHandlingTest.java",
+            "purpose": "統一 import 分組與排序，將 9 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/test/java/com/example/personalblog/FoundationTest.java",
+            "purpose": "統一 import 分組與排序，將 6 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/test/java/com/example/personalblog/ImageTest.java",
+            "purpose": "統一 import 分組與排序，將 18 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/test/java/com/example/personalblog/MarkdownTest.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "src/test/java/com/example/personalblog/PublicQueryTest.java",
+            "purpose": "統一 import 分組與排序，將 6 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/test/java/com/example/personalblog/SecurityTest.java",
+            "purpose": "統一 import 分組與排序，將 4 處 FQN 改為明確 import 與簡短類別名稱，收整相關換行"
+        },
+        {
+            "path": "src/test/java/com/example/personalblog/SeedLifecycleTest.java",
+            "purpose": "統一 import 分組與排序"
+        },
+        {
+            "path": "docs/TASKS.md",
+            "purpose": "記錄本階段完成項目、驗證結果與 VS Code 手動驗收步驟"
+        },
+        {
+            "path": "docs/evidence/import-check.json",
+            "purpose": "保存完整修改清單、各檔用途、測試結果與交付 JAR 雜湊"
+        }
+    ],
+    "checked_unchanged_java_files": [
+        "scripts/GenerateSeedImages.java",
+        "src/main/java/com/example/personalblog/PersonalBlogApplication.java",
+        "src/main/java/com/example/personalblog/controller/LoginController.java",
+        "src/main/java/com/example/personalblog/dto/DashboardStats.java",
+        "src/main/java/com/example/personalblog/dto/ImageContent.java",
+        "src/main/java/com/example/personalblog/dto/ImageResponse.java",
+        "src/main/java/com/example/personalblog/dto/NameForm.java",
+        "src/main/java/com/example/personalblog/dto/NamedItem.java",
+        "src/main/java/com/example/personalblog/dto/PostDetail.java",
+        "src/main/java/com/example/personalblog/dto/PreviewForm.java",
+        "src/main/java/com/example/personalblog/entity/Category.java",
+        "src/main/java/com/example/personalblog/entity/Image.java",
+        "src/main/java/com/example/personalblog/entity/Tag.java",
+        "src/main/java/com/example/personalblog/entity/User.java",
+        "src/main/java/com/example/personalblog/enums/PostStatus.java",
+        "src/main/java/com/example/personalblog/exception/NotFoundException.java",
+        "src/main/java/com/example/personalblog/exception/RuleViolation.java"
+    ],
+    "artifacts": [
+        {
+            "path": "delivery/personal-blog-imports.jar",
+            "sha256": "754d6fcebf662133801357a5875441183c5620a79a049a1806ec942196991613",
+            "same_as_maven_build": true
+        },
+        {
+            "path": "delivery/personal-blog-imports.jar.sha256"
+        }
+    ],
+    "known_remaining_issues": []
+}

@@ -1,7 +1,6 @@
 package com.example.personalblog.service;
 
-import com.example.personalblog.entity.User;
-import com.example.personalblog.repository.UserRepository;
+import java.nio.charset.StandardCharsets;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -12,6 +11,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.example.personalblog.entity.User;
+import com.example.personalblog.repository.UserRepository;
 
 @Service
 public class AdminService implements UserDetailsService {
@@ -42,7 +44,7 @@ public class AdminService implements UserDetailsService {
         if (password.length() < 12 || (!demo && password.equals("DemoBlog!2026"))) {
             throw new IllegalStateException("正式模式首次啟動必須設定 BLOG_ADMIN_PASSWORD，至少 12 字，且不得使用展示密碼。");
         }
-        if (password.getBytes(java.nio.charset.StandardCharsets.UTF_8).length > 72) {
+        if (password.getBytes(StandardCharsets.UTF_8).length > 72) {
             throw new IllegalStateException("初始密碼超過 BCrypt 的 72 位元組上限。");
         }
         users.saveAndFlush(new User("admin", encoder.encode(password)));

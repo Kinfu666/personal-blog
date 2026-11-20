@@ -1,8 +1,12 @@
 package com.example.personalblog.config;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import javax.sql.DataSource;
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,11 +14,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteDataSource;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-import javax.sql.DataSource;
 
 @Configuration
 public class DatabaseConfig {

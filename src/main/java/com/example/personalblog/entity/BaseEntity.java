@@ -1,13 +1,13 @@
 package com.example.personalblog.entity;
 
+import java.time.Instant;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-
-import java.time.Instant;
 
 @MappedSuperclass
 public abstract class BaseEntity {

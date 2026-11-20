@@ -3,6 +3,23 @@ package com.example.personalblog;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.nio.file.Files;
+import java.util.Set;
+
+import javax.sql.DataSource;
+
+import jakarta.persistence.EntityManager;
+
+import com.zaxxer.hikari.HikariDataSource;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.personalblog.entity.Category;
 import com.example.personalblog.entity.Image;
 import com.example.personalblog.entity.Post;
@@ -14,19 +31,6 @@ import com.example.personalblog.repository.ImageRepository;
 import com.example.personalblog.repository.PostRepository;
 import com.example.personalblog.repository.TagRepository;
 import com.example.personalblog.repository.UserRepository;
-
-import jakarta.persistence.EntityManager;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.nio.file.Files;
-import java.util.Set;
 
 @SpringBootTest(properties = {"app.seed.enabled=false"})
 class DatabaseTest {
@@ -42,7 +46,7 @@ class DatabaseTest {
     @Autowired ImageRepository images;
     @Autowired EntityManager em;
     @Autowired JdbcTemplate jdbc;
-    @Autowired javax.sql.DataSource dataSource;
+    @Autowired DataSource dataSource;
 
     @Test
     @Transactional
@@ -73,17 +77,14 @@ class DatabaseTest {
 
     @Test
     void foreignKeysAndVersionAreReal() throws Exception {
-        dataSource
-                .unwrap(com.zaxxer.hikari.HikariDataSource.class)
-                .getHikariPoolMXBean()
-                .softEvictConnections();
+        dataSource.unwrap(HikariDataSource.class).getHikariPoolMXBean().softEvictConnections();
         assertThat(jdbc.queryForObject("PRAGMA foreign_keys", Integer.class)).isEqualTo(1);
         assertThatThrownBy(
                         () ->
                                 jdbc.update(
                                         "INSERT INTO post_tags(post_id,tag_id)"
                                                 + " VALUES(99999,99999)"))
-                .isInstanceOf(org.springframework.dao.DataAccessException.class)
+                .isInstanceOf(DataAccessException.class)
                 .hasMessageContaining("SQLITE_CONSTRAINT_FOREIGNKEY");
         assertThat(
                         jdbc.queryForObject(

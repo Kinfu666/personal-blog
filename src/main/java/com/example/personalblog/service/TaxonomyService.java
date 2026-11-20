@@ -1,5 +1,13 @@
 package com.example.personalblog.service;
 
+import java.util.List;
+import java.util.Locale;
+
+import jakarta.validation.Validator;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.personalblog.dto.NameForm;
 import com.example.personalblog.dto.NamedItem;
 import com.example.personalblog.entity.Category;
@@ -10,14 +18,6 @@ import com.example.personalblog.exception.RuleViolation;
 import com.example.personalblog.repository.CategoryRepository;
 import com.example.personalblog.repository.PostRepository;
 import com.example.personalblog.repository.TagRepository;
-
-import jakarta.validation.Validator;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Locale;
 
 @Service
 public class TaxonomyService {

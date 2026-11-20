@@ -11,6 +11,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.nio.file.Files;
+import java.util.Set;
+
+import jakarta.validation.ConstraintViolationException;
+
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
+
 import com.example.personalblog.dto.NameForm;
 import com.example.personalblog.dto.NamedItem;
 import com.example.personalblog.dto.PostForm;
@@ -24,17 +39,6 @@ import com.example.personalblog.repository.TagRepository;
 import com.example.personalblog.service.PostService;
 import com.example.personalblog.service.TaxonomyService;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Set;
-
 @SpringBootTest(properties = "app.seed.enabled=false")
 @AutoConfigureMockMvc
 class ContentTest {
@@ -47,15 +51,15 @@ class ContentTest {
         assertThat(posts.save(null, f, "admin")).isNotNull();
         f.setTitle("文".repeat(151));
         assertThatThrownBy(() -> posts.save(null, f, "admin"))
-                .isInstanceOf(jakarta.validation.ConstraintViolationException.class);
+                .isInstanceOf(ConstraintViolationException.class);
         f.setTitle("標題");
         f.setSummary("文".repeat(301));
         assertThatThrownBy(() -> posts.save(null, f, "admin"))
-                .isInstanceOf(jakarta.validation.ConstraintViolationException.class);
+                .isInstanceOf(ConstraintViolationException.class);
         f.setSummary("摘要");
         f.setContent("文".repeat(50001));
         assertThatThrownBy(() -> posts.save(null, f, "admin"))
-                .isInstanceOf(jakarta.validation.ConstraintViolationException.class);
+                .isInstanceOf(ConstraintViolationException.class);
         NameForm name = new NameForm();
         name.setName("字".repeat(50));
         taxonomy.save(false, null, name);
@@ -66,7 +70,7 @@ class ContentTest {
 
     @DynamicPropertySource
     static void db(DynamicPropertyRegistry r) throws Exception {
-        r.add("app.data-dir", java.nio.file.Files.createTempDirectory("blog-content-")::toString);
+        r.add("app.data-dir", Files.createTempDirectory("blog-content-")::toString);
     }
 
     @Autowired PostService posts;
@@ -146,14 +150,14 @@ class ContentTest {
         f.setTagIds(Set.of());
         f.setTitle(" ");
         assertThatThrownBy(() -> posts.save(null, f, "admin"))
-                .isInstanceOf(jakarta.validation.ConstraintViolationException.class);
+                .isInstanceOf(ConstraintViolationException.class);
     }
 
     @Test
     void adminFormsHaveCsrfAndPreserveInvalidValues() throws Exception {
         mvc.perform(get("/admin/posts/new").with(user("admin").roles("ADMIN")))
                 .andExpect(status().isOk())
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("_csrf")));
+                .andExpect(content().string(Matchers.containsString("_csrf")));
         mvc.perform(
                         post("/admin/posts")
                                 .with(user("admin").roles("ADMIN"))
@@ -164,7 +168,7 @@ class ContentTest {
                                 .param("status", "DRAFT"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeHasFieldErrors("postForm", "summary"))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("保留標題")));
+                .andExpect(content().string(Matchers.containsString("保留標題")));
         mvc.perform(
                         post("/admin/posts")
                                 .with(user("admin").roles("ADMIN"))

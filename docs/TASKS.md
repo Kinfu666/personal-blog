@@ -67,3 +67,20 @@
 - [x] 登入／登出、即時預覽、圖片上傳插入與刪除、JAR 首次初始化及重新啟動持久化驗收通過。
 - [x] 修改前後以 `git diff --no-index` 審查；既有資料庫、第三方資源與交付封存檔雜湊保持不變。
 - [x] 整理後 JAR 另存 `delivery/personal-blog-formatted.jar`，附 SHA-256；完整清單見 `docs/FORMATTING_REPORT.md`。
+
+## Java import 整理驗收（2026-11-20）
+
+- [x] 檢查全部 60 份 Java 原始碼：48 份正式程式、11 份測試與 1 份圖片產生腳本；實際修改 32 份正式程式與 11 份測試。
+- [x] 將 103 處不必要的 FQN 改為明確 import 與簡短類別名稱，包含註解標記、泛型、例外、欄位與方法內參照；收整相關換行，原有程式邏輯不變。
+- [x] 全專案統一依序分組為 static、java、javax、jakarta、第三方套件、專案套件；各組按完整 import 名稱排序，組間保留一個空行。
+- [x] 以 Javac 解析實際符號，確認未使用、重複與萬用字元 import 均為 0；唯一保留的 FQN 為 `AdminService` 中 Spring Security 的 `User`，避免與專案 Entity `User` 衝突。
+- [x] 使用相同 Java 21 編譯選項並排除除錯資訊，全部 64 個 class 位元組完全一致；未調整 MVC 分層、相依套件、業務規則或安全機制。
+- [x] 執行 `mvnw.cmd -B -ntp -Dmaven.repo.local=D:/personal-blog/.m2/repository clean verify`：BUILD SUCCESS，28 項測試通過，0 失敗、0 錯誤、0 跳過。
+- [x] 重新打包並另存 `delivery/personal-blog-imports.jar` 與 SHA-256；使用此交付 JAR 在獨立資料目錄執行既有 `scripts/jar-smoke.py`，首次初始化、登入、CSRF、HTTP 寫入及重啟持久化檢查全部通過。
+- [x] `git diff --check` 通過；完整修改檔案清單、各檔用途、測試結果及 JAR 雜湊見 [import-check.json](evidence/import-check.json)。沒有已知未完成項目；後續由使用者驗收及決定 Git 提交。
+
+VS Code 手動驗收：
+
+1. 開啟 `SecurityConfig.java`、`PostRepository.java`、兩份 ExceptionHandler 與測試檔，確認類別名稱使用檔案上方的明確 import，分組與排序一致。
+2. 在終端機執行 `.\mvnw.cmd -B -ntp '-Dmaven.repo.local=./.m2/repository' clean verify`，確認 28 項測試全部通過。
+3. 執行 `java -jar delivery/personal-blog-imports.jar --server.port=18080 --app.data-dir=./target/import-manual-data`，開啟 `http://127.0.0.1:18080`，以展示帳號登入，檢查文章、預覽及圖片操作；停止後以同一命令重啟確認資料保留。

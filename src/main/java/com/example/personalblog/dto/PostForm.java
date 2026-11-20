@@ -1,13 +1,13 @@
 package com.example.personalblog.dto;
 
-import com.example.personalblog.enums.PostStatus;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import com.example.personalblog.enums.PostStatus;
 
 public class PostForm {
     @NotBlank(message = "請輸入標題")

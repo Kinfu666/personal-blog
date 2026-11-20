@@ -1,11 +1,11 @@
 package com.example.personalblog.config;
 
-import com.example.personalblog.service.SeedService;
-
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import com.example.personalblog.service.SeedService;
 
 @Component
 @Order(2)

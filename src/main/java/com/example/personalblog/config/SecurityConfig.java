@@ -1,12 +1,22 @@
 package com.example.personalblog.config;
 
+import java.io.IOException;
+import java.util.LinkedHashMap;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 public class SecurityConfig {
@@ -17,19 +27,12 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        var entryPoints =
-                new java.util.LinkedHashMap<
-                        org.springframework.security.web.util.matcher.RequestMatcher,
-                        org.springframework.security.web.AuthenticationEntryPoint>();
+        var entryPoints = new LinkedHashMap<RequestMatcher, AuthenticationEntryPoint>();
         entryPoints.put(
                 this::isJsonOperation,
                 (request, response, error) -> jsonError(response, 401, "請先登入管理員帳號"));
-        var entryPoint =
-                new org.springframework.security.web.authentication
-                        .DelegatingAuthenticationEntryPoint(entryPoints);
-        entryPoint.setDefaultEntryPoint(
-                new org.springframework.security.web.authentication
-                        .LoginUrlAuthenticationEntryPoint("/login"));
+        var entryPoint = new DelegatingAuthenticationEntryPoint(entryPoints);
+        entryPoint.setDefaultEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
         return http.authorizeHttpRequests(
                         auth ->
                                 auth.requestMatchers("/admin", "/admin/**")
@@ -74,15 +77,14 @@ public class SecurityConfig {
                 .build();
     }
 
-    private boolean isJsonOperation(jakarta.servlet.http.HttpServletRequest request) {
+    private boolean isJsonOperation(HttpServletRequest request) {
         String path = request.getRequestURI().substring(request.getContextPath().length());
         return request.getMethod().equals("POST")
                 && (path.equals("/admin/images") || path.equals("/admin/markdown/preview"));
     }
 
-    private void jsonError(
-            jakarta.servlet.http.HttpServletResponse response, int status, String message)
-            throws java.io.IOException {
+    private void jsonError(HttpServletResponse response, int status, String message)
+            throws IOException {
         response.setStatus(status);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

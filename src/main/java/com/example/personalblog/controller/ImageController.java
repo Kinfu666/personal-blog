@@ -1,9 +1,5 @@
 package com.example.personalblog.controller;
 
-import com.example.personalblog.dto.ImageContent;
-import com.example.personalblog.exception.RuleViolation;
-import com.example.personalblog.service.ImageService;
-
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.example.personalblog.dto.ImageContent;
+import com.example.personalblog.exception.RuleViolation;
+import com.example.personalblog.service.ImageService;
 
 @Controller
 public class ImageController {

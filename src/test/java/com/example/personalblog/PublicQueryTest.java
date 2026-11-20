@@ -6,15 +6,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.personalblog.dto.PostForm;
-import com.example.personalblog.dto.PostListItem;
-import com.example.personalblog.entity.Category;
-import com.example.personalblog.entity.Tag;
-import com.example.personalblog.enums.PostStatus;
-import com.example.personalblog.repository.CategoryRepository;
-import com.example.personalblog.repository.TagRepository;
-import com.example.personalblog.service.PostService;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,17 +22,21 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import com.example.personalblog.dto.PostForm;
+import com.example.personalblog.dto.PostListItem;
+import com.example.personalblog.entity.Category;
+import com.example.personalblog.entity.Tag;
+import com.example.personalblog.enums.PostStatus;
+import com.example.personalblog.repository.CategoryRepository;
+import com.example.personalblog.repository.TagRepository;
+import com.example.personalblog.service.PostService;
 
 @SpringBootTest(properties = "app.seed.enabled=false")
 @AutoConfigureMockMvc
 class PublicQueryTest {
     @DynamicPropertySource
     static void db(DynamicPropertyRegistry r) throws Exception {
-        r.add("app.data-dir", java.nio.file.Files.createTempDirectory("blog-query-")::toString);
+        r.add("app.data-dir", Files.createTempDirectory("blog-query-")::toString);
     }
 
     @Autowired PostService posts;
@@ -81,19 +83,19 @@ class PublicQueryTest {
                                 .param("category", category.toString())
                                 .param("tag", tag.toString()))
                 .andExpect(status().isOk())
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("page=1")))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("q=keyword")));
+                .andExpect(content().string(Matchers.containsString("page=1")))
+                .andExpect(content().string(Matchers.containsString("q=keyword")));
         mvc.perform(get("/posts/" + draft)).andExpect(status().isNotFound());
         mvc.perform(get("/posts/999999")).andExpect(status().isNotFound());
         mvc.perform(get("/posts/" + published.getFirst()))
                 .andExpect(status().isOk())
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("<h1>Keyword")));
+                .andExpect(content().string(Matchers.containsString("<h1>Keyword")));
         mvc.perform(get("/").param("q", "絕無結果"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("沒有符合條件")));
+                .andExpect(content().string(Matchers.containsString("沒有符合條件")));
         mvc.perform(get("/about")).andExpect(status().isOk());
         mvc.perform(get("/admin").with(user("admin").roles("ADMIN")))
                 .andExpect(status().isOk())
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("管理總覽")));
+                .andExpect(content().string(Matchers.containsString("管理總覽")));
     }
 }

@@ -1,6 +1,10 @@
 package com.example.personalblog.entity;
 
-import com.example.personalblog.enums.PostStatus;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -14,11 +18,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import java.time.Instant;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import com.example.personalblog.enums.PostStatus;
 
 @Entity
 @Table(name = "posts")

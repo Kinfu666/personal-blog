@@ -2,9 +2,9 @@ package com.example.personalblog;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.example.personalblog.service.MarkdownService;
-
 import org.junit.jupiter.api.Test;
+
+import com.example.personalblog.service.MarkdownService;
 
 class MarkdownTest {
     private final MarkdownService markdown = new MarkdownService();

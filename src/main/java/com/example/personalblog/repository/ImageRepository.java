@@ -1,11 +1,14 @@
 package com.example.personalblog.repository;
 
-import com.example.personalblog.entity.Image;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ImageRepository extends JpaRepository<Image, Long> {
-    java.util.Optional<Image> findByStoredName(String storedName);
+import com.example.personalblog.entity.Image;
 
-    java.util.List<Image> findAllByOrderByIdDesc();
+public interface ImageRepository extends JpaRepository<Image, Long> {
+    Optional<Image> findByStoredName(String storedName);
+
+    List<Image> findAllByOrderByIdDesc();
 }

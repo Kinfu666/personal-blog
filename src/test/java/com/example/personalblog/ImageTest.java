@@ -11,6 +11,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.UUID;
+
+import javax.imageio.ImageIO;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
+
 import com.example.personalblog.dto.ImageResponse;
 import com.example.personalblog.dto.PostForm;
 import com.example.personalblog.entity.Category;
@@ -21,34 +42,20 @@ import com.example.personalblog.repository.CategoryRepository;
 import com.example.personalblog.service.ImageService;
 import com.example.personalblog.service.PostService;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-
-import javax.imageio.ImageIO;
-
 @SpringBootTest(properties = "app.seed.enabled=false")
 @AutoConfigureMockMvc
 class ImageTest {
     @DynamicPropertySource
     static void db(DynamicPropertyRegistry r) throws Exception {
-        r.add("app.data-dir", java.nio.file.Files.createTempDirectory("blog-images-")::toString);
+        r.add("app.data-dir", Files.createTempDirectory("blog-images-")::toString);
     }
 
     @Autowired ImageService images;
     @Autowired PostService posts;
     @Autowired CategoryRepository categories;
     @Autowired MockMvc mvc;
-    @Autowired org.springframework.transaction.PlatformTransactionManager transactions;
-    @Autowired org.springframework.core.env.Environment environment;
+    @Autowired PlatformTransactionManager transactions;
+    @Autowired Environment environment;
 
     static byte[] png() throws Exception {
         var out = new ByteArrayOutputStream();
@@ -58,12 +65,10 @@ class ImageTest {
 
     @Test
     void fileCompensationAndStartupRecovery() throws Exception {
-        var tx = new org.springframework.transaction.support.TransactionTemplate(transactions);
+        var tx = new TransactionTemplate(transactions);
         var image = images.store(png(), "recovery.png", "image/png", "admin");
-        var root =
-                java.nio.file.Path.of(environment.getRequiredProperty("app.data-dir"))
-                        .resolve("uploads");
-        var stored = java.nio.file.Path.of(image.url()).getFileName().toString();
+        var root = Path.of(environment.getRequiredProperty("app.data-dir")).resolve("uploads");
+        var stored = Path.of(image.url()).getFileName().toString();
         var file = root.resolve(stored);
         var trash = root.resolve(stored + ".deleted");
         tx.executeWithoutResult(
@@ -71,17 +76,17 @@ class ImageTest {
                     images.delete(image.id());
                     status.setRollbackOnly();
                 });
-        assertThat(java.nio.file.Files.exists(file)).isTrue();
-        assertThat(java.nio.file.Files.exists(trash)).isFalse();
-        java.nio.file.Files.move(file, trash);
+        assertThat(Files.exists(file)).isTrue();
+        assertThat(Files.exists(trash)).isFalse();
+        Files.move(file, trash);
         images.reconcile();
-        assertThat(java.nio.file.Files.exists(file)).isTrue();
-        var orphan = root.resolve(java.util.UUID.randomUUID() + ".png");
-        java.nio.file.Files.write(orphan, png());
+        assertThat(Files.exists(file)).isTrue();
+        var orphan = root.resolve(UUID.randomUUID() + ".png");
+        Files.write(orphan, png());
         images.reconcile();
-        assertThat(java.nio.file.Files.exists(orphan)).isFalse();
+        assertThat(Files.exists(orphan)).isFalse();
         long before;
-        try (var files = java.nio.file.Files.list(root)) {
+        try (var files = Files.list(root)) {
             before = files.count();
         }
         tx.executeWithoutResult(
@@ -93,13 +98,13 @@ class ImageTest {
                     }
                     status.setRollbackOnly();
                 });
-        try (var files = java.nio.file.Files.list(root)) {
+        try (var files = Files.list(root)) {
             assertThat(files.count()).isEqualTo(before);
         }
         images.delete(image.id());
-        java.nio.file.Files.write(trash, png());
+        Files.write(trash, png());
         images.reconcile();
-        assertThat(java.nio.file.Files.exists(trash)).isFalse();
+        assertThat(Files.exists(trash)).isFalse();
     }
 
     @Test
@@ -187,7 +192,7 @@ class ImageTest {
                                 .url())
                 .endsWith(".jpg");
         byte[] huge = png();
-        java.nio.ByteBuffer.wrap(huge, 16, 4).putInt(20000);
+        ByteBuffer.wrap(huge, 16, 4).putInt(20000);
         assertThatThrownBy(
                         () ->
                                 images.upload(

@@ -1,14 +1,22 @@
 package com.example.personalblog.service;
 
-import com.example.personalblog.dto.ImageContent;
-import com.example.personalblog.dto.ImageResponse;
-import com.example.personalblog.entity.Image;
-import com.example.personalblog.enums.PostStatus;
-import com.example.personalblog.exception.NotFoundException;
-import com.example.personalblog.exception.RuleViolation;
-import com.example.personalblog.repository.ImageRepository;
-import com.example.personalblog.repository.PostRepository;
-import com.example.personalblog.repository.UserRepository;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Consumer;
+
+import javax.imageio.IIOException;
+import javax.imageio.ImageIO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,20 +27,15 @@ import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import javax.imageio.ImageIO;
+import com.example.personalblog.dto.ImageContent;
+import com.example.personalblog.dto.ImageResponse;
+import com.example.personalblog.entity.Image;
+import com.example.personalblog.enums.PostStatus;
+import com.example.personalblog.exception.NotFoundException;
+import com.example.personalblog.exception.RuleViolation;
+import com.example.personalblog.repository.ImageRepository;
+import com.example.personalblog.repository.PostRepository;
+import com.example.personalblog.repository.UserRepository;
 
 @Service
 public class ImageService {
@@ -188,10 +191,8 @@ public class ImageService {
                 && bytes[1] == (byte) 216
                 && bytes[2] == (byte) 255) format = "jpeg";
         else if (bytes.length >= 12
-                && new String(bytes, 0, 4, java.nio.charset.StandardCharsets.US_ASCII)
-                        .equals("RIFF")
-                && new String(bytes, 8, 4, java.nio.charset.StandardCharsets.US_ASCII)
-                        .equals("WEBP")) format = "webp";
+                && new String(bytes, 0, 4, StandardCharsets.US_ASCII).equals("RIFF")
+                && new String(bytes, 8, 4, StandardCharsets.US_ASCII).equals("WEBP")) format = "webp";
         else throw invalid("僅接受實際格式為 JPEG、PNG 或 WebP 的圖片");
         if (!("image/" + format).equalsIgnoreCase(declared)) throw invalid("宣告的 MIME 與實際圖片格式不一致");
         try (var input = ImageIO.createImageInputStream(new ByteArrayInputStream(bytes))) {
@@ -211,7 +212,7 @@ public class ImageService {
             } finally {
                 reader.dispose();
             }
-        } catch (IllegalArgumentException | javax.imageio.IIOException error) {
+        } catch (IllegalArgumentException | IIOException error) {
             throw invalid("圖片損壞或無法解碼");
         }
         return format.equals("jpeg") ? "jpg" : format;
@@ -238,7 +239,7 @@ public class ImageService {
         return new RuleViolation("file", message);
     }
 
-    private void afterCompletion(java.util.function.Consumer<Boolean> action) {
+    private void afterCompletion(Consumer<Boolean> action) {
         TransactionSynchronizationManager.registerSynchronization(
                 new TransactionSynchronization() {
                     @Override

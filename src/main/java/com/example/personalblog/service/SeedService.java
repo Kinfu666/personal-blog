@@ -1,19 +1,5 @@
 package com.example.personalblog.service;
 
-import com.example.personalblog.dto.NameForm;
-import com.example.personalblog.dto.PostForm;
-import com.example.personalblog.enums.PostStatus;
-import com.example.personalblog.repository.CategoryRepository;
-import com.example.personalblog.repository.TagRepository;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
@@ -22,6 +8,20 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.personalblog.dto.NameForm;
+import com.example.personalblog.dto.PostForm;
+import com.example.personalblog.enums.PostStatus;
+import com.example.personalblog.repository.CategoryRepository;
+import com.example.personalblog.repository.TagRepository;
 
 @Service
 public class SeedService {

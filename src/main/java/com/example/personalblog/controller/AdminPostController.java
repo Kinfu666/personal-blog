@@ -1,10 +1,6 @@
 package com.example.personalblog.controller;
 
-import com.example.personalblog.dto.PostForm;
-import com.example.personalblog.enums.PostStatus;
-import com.example.personalblog.exception.RuleViolation;
-import com.example.personalblog.service.PostService;
-import com.example.personalblog.service.TaxonomyService;
+import java.security.Principal;
 
 import jakarta.validation.Valid;
 
@@ -19,7 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal;
+import com.example.personalblog.dto.PostForm;
+import com.example.personalblog.enums.PostStatus;
+import com.example.personalblog.exception.RuleViolation;
+import com.example.personalblog.service.PostService;
+import com.example.personalblog.service.TaxonomyService;
 
 @Controller
 @RequestMapping("/admin/posts")

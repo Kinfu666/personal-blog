@@ -11,24 +11,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.personalblog.repository.UserRepository;
-import com.example.personalblog.service.AdminService;
+import java.nio.file.Files;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.example.personalblog.repository.UserRepository;
+import com.example.personalblog.service.AdminService;
 
 @SpringBootTest(properties = "app.seed.enabled=false")
 @AutoConfigureMockMvc
 class SecurityTest {
     @DynamicPropertySource
     static void db(DynamicPropertyRegistry r) throws Exception {
-        r.add("app.data-dir", java.nio.file.Files.createTempDirectory("blog-security-")::toString);
+        r.add("app.data-dir", Files.createTempDirectory("blog-security-")::toString);
     }
 
     @Autowired MockMvc mvc;
@@ -43,7 +47,7 @@ class SecurityTest {
         mvc.perform(formLogin().user("admin").password("wrong"))
                 .andExpect(redirectedUrl("/login?error"));
         mvc.perform(get("/login?error"))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("帳號或密碼不正確")));
+                .andExpect(content().string(Matchers.containsString("帳號或密碼不正確")));
     }
 
     @Test
@@ -66,7 +70,7 @@ class SecurityTest {
 
     @Test
     void loginChangesSessionIdAndLogoutInvalidatesSession() throws Exception {
-        var session = new org.springframework.mock.web.MockHttpSession();
+        var session = new MockHttpSession();
         String before = session.getId();
         var result =
                 mvc.perform(
@@ -77,9 +81,7 @@ class SecurityTest {
                                         .param("password", "DemoBlog!2026"))
                         .andExpect(redirectedUrl("/admin"))
                         .andReturn();
-        var authenticated =
-                (org.springframework.mock.web.MockHttpSession)
-                        result.getRequest().getSession(false);
+        var authenticated = (MockHttpSession) result.getRequest().getSession(false);
         assertThat(authenticated.getId()).isNotEqualTo(before);
         mvc.perform(post("/logout").session(authenticated).with(csrf()))
                 .andExpect(redirectedUrl("/"));

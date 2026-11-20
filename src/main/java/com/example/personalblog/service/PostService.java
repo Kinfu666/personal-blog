@@ -1,5 +1,22 @@
 package com.example.personalblog.service;
 
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.personalblog.dto.NamedItem;
 import com.example.personalblog.dto.PostDetail;
 import com.example.personalblog.dto.PostForm;
@@ -15,22 +32,6 @@ import com.example.personalblog.repository.PostRepository;
 import com.example.personalblog.repository.PostSpecifications;
 import com.example.personalblog.repository.TagRepository;
 import com.example.personalblog.repository.UserRepository;
-
-import jakarta.validation.Validator;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -68,7 +69,7 @@ public class PostService {
     @Transactional
     public Long save(Long id, PostForm form, String username) {
         var errors = validator.validate(form);
-        if (!errors.isEmpty()) throw new jakarta.validation.ConstraintViolationException(errors);
+        if (!errors.isEmpty()) throw new ConstraintViolationException(errors);
         Category category =
                 categories
                         .findById(form.getCategoryId())

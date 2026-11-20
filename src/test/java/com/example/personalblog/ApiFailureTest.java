@@ -9,23 +9,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import com.example.personalblog.controller.ApiExceptionHandler;
 import com.example.personalblog.controller.ImageApiController;
 import com.example.personalblog.service.ImageService;
 import com.example.personalblog.service.MarkdownService;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 class ApiFailureTest {
     @Test
     void unexpectedUploadFailureStaysJsonAndHidesDiagnostics() throws Exception {
         var images = mock(ImageService.class);
         when(images.upload(any(), eq("admin")))
-                .thenThrow(
-                        new org.springframework.dao.DataAccessResourceFailureException(
-                                "sensitive database detail"));
+                .thenThrow(new DataAccessResourceFailureException("sensitive database detail"));
         var mvc =
                 MockMvcBuilders.standaloneSetup(
                                 new ImageApiController(images, new MarkdownService()))
@@ -39,13 +39,11 @@ class ApiFailureTest {
                                 .principal(() -> "admin"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().contentTypeCompatibleWith("application/json"))
-                .andExpect(
-                        jsonPath("$.message").value(org.hamcrest.Matchers.containsString("錯誤編號")))
+                .andExpect(jsonPath("$.message").value(Matchers.containsString("錯誤編號")))
                 .andExpect(
                         content()
                                 .string(
-                                        org.hamcrest.Matchers.not(
-                                                org.hamcrest.Matchers.containsString(
-                                                        "sensitive database detail"))));
+                                        Matchers.not(
+                                                Matchers.containsString("sensitive database detail"))));
     }
 }
