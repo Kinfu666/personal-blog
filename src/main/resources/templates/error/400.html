@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/layout :: head('請確認輸入')}"></head>
+
+    <body>
+        <header th:replace="~{fragments/layout :: nav}"></header>
+
+        <main class="container py-5">
+            <p class="eyebrow">400 / BAD REQUEST</p>
+            <h1>請確認網址或輸入內容</h1>
+            <p>查詢條件的格式不正確，請回到列表重新選擇。</p>
+            <a class="btn btn-primary" th:href="@{/}">返回首頁</a>
+        </main>
+
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </body>
+</html>

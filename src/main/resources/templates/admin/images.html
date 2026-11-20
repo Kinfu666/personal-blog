@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/layout :: head('圖片管理')}"></head>
+
+    <body>
+        <header th:replace="~{fragments/layout :: nav}"></header>
+
+        <nav th:replace="~{fragments/admin :: nav}"></nav>
+
+        <main class="container py-4">
+            <h1 class="h2 mb-4">圖片素材庫</h1>
+            <div th:replace="~{fragments/admin :: messages}"></div>
+            <form id="image-upload" class="mb-4">
+                <label for="image-file" class="form-label">上傳圖片（JPEG／PNG／WebP，最多 5 MiB）</label>
+                <div class="d-flex gap-2">
+                    <input
+                        id="image-file"
+                        name="file"
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        class="form-control"
+                        required
+                    >
+                    <button class="btn btn-primary text-nowrap">上傳</button>
+                </div>
+                <p id="upload-message" role="status" class="mt-2"></p>
+            </form>
+            <p th:if="${images.empty}" class="empty-state">尚無圖片，請上傳第一張素材。</p>
+            <div class="row g-4">
+                <div th:each="image:${images}" class="col-sm-6 col-lg-4">
+                    <article class="card h-100">
+                        <img class="image-thumb" th:src="${image.url}" th:alt="${image.originalName}">
+                        <div class="card-body">
+                            <h2 class="h6 text-break" th:text="${image.originalName}"></h2>
+                            <p class="text-secondary" th:text="${image.sizeBytes + ' bytes'}"></p>
+                            <label class="visually-hidden" th:for="${'md-' + image.id}">Markdown 連結</label>
+                            <input
+                                th:id="${'md-' + image.id}"
+                                class="form-control form-control-sm mb-3"
+                                th:value="${image.markdown}"
+                                readonly
+                            >
+                            <div class="d-flex gap-2">
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-outline-secondary"
+                                    th:attr="data-copy=${image.markdown}"
+                                >
+                                    複製 Markdown
+                                </button>
+                                <form
+                                    th:action="@{/admin/images/{id}/delete(id=${image.id})}"
+                                    method="post"
+                                    data-confirm="確定刪除此圖片？"
+                                >
+                                    <button class="btn btn-sm btn-outline-danger">刪除</button>
+                                </form>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <p id="copy-message" role="status"></p>
+        </main>
+
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </body>
+</html>

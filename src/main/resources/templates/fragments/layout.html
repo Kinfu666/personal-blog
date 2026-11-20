@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="head(title)">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title th:text="${title} + ' · 技術札記'">技術札記</title>
+        <meta th:if="${_csrf != null}" name="csrf-token" th:content="${_csrf.token}">
+        <meta th:if="${_csrf != null}" name="csrf-header" th:content="${_csrf.headerName}">
+        <link rel="stylesheet" th:href="@{/vendor/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/css/site.css}">
+        <script defer th:src="@{/js/site.js}"></script>
+    </head>
+
+    <body>
+        <header th:fragment="nav" class="border-bottom bg-white">
+            <nav
+                class="container d-flex flex-wrap align-items-center justify-content-between gap-3 py-3"
+                aria-label="主要導覽"
+            >
+                <a class="brand" th:href="@{/}">技術札記<span class="brand-dot">.</span></a>
+                <div class="d-flex flex-wrap gap-3 align-items-center">
+                    <a th:href="@{/}">文章</a>
+                    <a th:href="@{/about}">關於本站</a>
+                    <a th:href="@{/admin}">管理後台</a>
+                </div>
+            </nav>
+        </header>
+
+        <footer th:fragment="footer" class="container border-top py-4 mt-5 text-secondary">
+            技術札記 · 用文字整理思考，讓知識持續累積。<span class="d-block">Spring MVC 示範部落格</span>
+        </footer>
+    </body>
+</html>

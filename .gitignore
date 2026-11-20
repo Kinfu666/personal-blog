@@ -1,0 +1,10 @@
+/data/
+/target/
+/delivery/
+/.tools/
+/.m2/
+/.vscode/
+/.idea/
+*.iml
+*.log
+.env

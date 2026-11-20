@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/layout :: head(${detail.article.title})}"></head>
+
+    <body>
+        <header th:replace="~{fragments/layout :: nav}"></header>
+
+        <main class="container py-5">
+            <article class="prose">
+                <a th:href="@{/}">返回文章清單</a>
+                <header class="border-bottom pb-4 my-4">
+                    <div class="d-flex gap-3 text-secondary mb-3">
+                        <a
+                            th:href="@{/(category=${detail.article.category.id})}"
+                            th:text="${detail.article.category.name}"
+                        ></a>
+                        <time th:text="${detail.article.date()}"></time>
+                    </div>
+                    <h1 th:text="${detail.article.title}"></h1>
+                    <p class="lead mt-3" th:text="${detail.article.summary}"></p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a
+                            class="tag"
+                            th:each="item:${detail.article.tags}"
+                            th:href="@{/(tag=${item.id})}"
+                            th:text="${item.name}"
+                        ></a>
+                    </div>
+                </header>
+                <div th:utext="${detail.html}"></div>
+            </article>
+        </main>
+
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </body>
+</html>

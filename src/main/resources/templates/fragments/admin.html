@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+
+    <body>
+        <nav th:fragment="nav" class="admin-nav border-bottom" aria-label="管理導覽">
+            <div class="container d-flex flex-wrap align-items-center justify-content-between">
+                <div>
+                    <a th:href="@{/admin}">總覽</a>
+                    <a th:href="@{/admin/posts}">文章</a>
+                    <a th:href="@{/admin/categories}">分類</a>
+                    <a th:href="@{/admin/tags}">標籤</a>
+                    <a th:href="@{/admin/images}">圖片</a>
+                </div>
+                <form th:action="@{/logout}" method="post">
+                    <button class="btn btn-sm btn-outline-secondary my-2">登出</button>
+                </form>
+            </div>
+        </nav>
+        <div th:fragment="messages">
+            <p th:if="${message}" th:text="${message}" class="alert alert-success" role="status"></p>
+            <p th:if="${error}" th:text="${error}" class="alert alert-danger" role="alert"></p>
+        </div>
+    </body>
+</html>

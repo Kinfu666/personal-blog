@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/layout :: head('文章管理')}"></head>
+
+    <body>
+        <header th:replace="~{fragments/layout :: nav}"></header>
+
+        <nav th:replace="~{fragments/admin :: nav}"></nav>
+
+        <main class="container py-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h1 class="h2">文章管理</h1>
+                <a class="btn btn-primary" th:href="@{/admin/posts/new}">新增文章</a>
+            </div>
+            <div th:replace="~{fragments/admin :: messages}"></div>
+            <form th:action="@{/admin/posts}" method="get" class="row g-2 mb-4">
+                <div class="col-md-6">
+                    <label class="visually-hidden" for="q">搜尋文章</label>
+                    <input id="q" name="q" th:value="${q}" class="form-control" placeholder="搜尋標題、摘要或內容">
+                </div>
+                <div class="col-md-3">
+                    <label class="visually-hidden" for="status">狀態</label>
+                    <select id="status" name="status" class="form-select">
+                        <option value="">全部狀態</option>
+                        <option value="DRAFT" th:selected="${status?.name() == 'DRAFT'}">草稿</option>
+                        <option value="PUBLISHED" th:selected="${status?.name() == 'PUBLISHED'}">已發布</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-outline-secondary">篩選</button>
+                </div>
+            </form>
+            <p th:if="${posts.empty}" class="empty-state">尚無符合條件的文章。</p>
+            <div th:unless="${posts.empty}" class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>文章</th>
+                            <th>狀態</th>
+                            <th>分類</th>
+                            <th>時間（臺北）</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="post:${posts}">
+                            <td th:text="${post.title}"></td>
+                            <td th:text="${post.status.label}"></td>
+                            <td th:text="${post.category.name}"></td>
+                            <td th:text="${post.date()}"></td>
+                            <td>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <a
+                                        class="btn btn-sm btn-outline-secondary"
+                                        th:href="@{/admin/posts/{id}/edit(id=${post.id})}"
+                                    >
+                                        編輯
+                                    </a>
+                                    <form
+                                        th:action="@{/admin/posts/{id}/delete(id=${post.id})}"
+                                        method="post"
+                                        data-confirm="確定刪除此文章？此操作無法復原。"
+                                    >
+                                        <button class="btn btn-sm btn-outline-danger">刪除</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="文章分頁" class="d-flex gap-3">
+                <a
+                    th:if="${posts.hasPrevious()}"
+                    th:href="@{/admin/posts(q=${q},status=${status},page=${posts.number - 1})}"
+                >
+                    上一頁
+                </a>
+                <span
+                    th:text="${'第 ' + (posts.number + 1) + ' 頁 / 共 ' + (posts.totalPages == 0 ? 1 : posts.totalPages) + ' 頁'}"
+                ></span>
+                <a
+                    th:if="${posts.hasNext()}"
+                    th:href="@{/admin/posts(q=${q},status=${status},page=${posts.number + 1})}"
+                >
+                    下一頁
+                </a>
+            </nav>
+        </main>
+
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </body>
+</html>

@@ -1,0 +1,98 @@
+{
+    "result": "PASS",
+    "date": "2026-11-20",
+    "tests": 28,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "suites": [
+        {
+            "name": "com.example.personalblog.AdminPolicyTest",
+            "tests": "2",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0",
+            "time": "1.121"
+        },
+        {
+            "name": "com.example.personalblog.ApiFailureTest",
+            "tests": "1",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0",
+            "time": "1.012"
+        },
+        {
+            "name": "com.example.personalblog.ContentTest",
+            "tests": "5",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0",
+            "time": "6.598"
+        },
+        {
+            "name": "com.example.personalblog.DatabaseTest",
+            "tests": "2",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0",
+            "time": "1.093"
+        },
+        {
+            "name": "com.example.personalblog.ErrorHandlingTest",
+            "tests": "3",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0",
+            "time": "0.927"
+        },
+        {
+            "name": "com.example.personalblog.FoundationTest",
+            "tests": "1",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0",
+            "time": "1.488"
+        },
+        {
+            "name": "com.example.personalblog.ImageTest",
+            "tests": "5",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0",
+            "time": "1.185"
+        },
+        {
+            "name": "com.example.personalblog.MarkdownTest",
+            "tests": "2",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0",
+            "time": "0.017"
+        },
+        {
+            "name": "com.example.personalblog.PublicQueryTest",
+            "tests": "1",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0",
+            "time": "0.995"
+        },
+        {
+            "name": "com.example.personalblog.SecurityTest",
+            "tests": "4",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0",
+            "time": "1.981"
+        },
+        {
+            "name": "com.example.personalblog.SeedLifecycleTest",
+            "tests": "2",
+            "failures": "0",
+            "errors": "0",
+            "skipped": "0",
+            "time": "3.399"
+        }
+    ]
+}

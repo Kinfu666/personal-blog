@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/layout :: head('找不到頁面')}"></head>
+
+    <body>
+        <header th:replace="~{fragments/layout :: nav}"></header>
+
+        <main class="container py-5">
+            <p class="eyebrow">404 / NOT FOUND</p>
+            <h1>這一頁暫時找不到</h1>
+            <p>文章可能尚未發布、已移除，或網址輸入有誤。</p>
+            <a class="btn btn-primary" th:href="@{/}">瀏覽最新文章</a>
+        </main>
+
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </body>
+</html>

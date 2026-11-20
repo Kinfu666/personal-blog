@@ -1,0 +1,220 @@
+/* 全域變數與基本排版 */
+:root {
+    --ink: #16283c;
+    --accent: #176b55;
+}
+
+body {
+    font-family: system-ui, 'Microsoft JhengHei', sans-serif;
+    color: var(--ink);
+    background: #fff;
+    line-height: 1.8;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h1,
+h2,
+h3 {
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+/* 版心與網站識別 */
+.container {
+    max-width: 1120px;
+}
+
+.brand {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+.brand-dot {
+    color: var(--accent);
+}
+
+.eyebrow {
+    letter-spacing: 0.16em;
+    font-size: 0.875rem;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* 主要按鈕 */
+.btn-primary {
+    --bs-btn-bg: #176b55;
+    --bs-btn-border-color: #176b55;
+    --bs-btn-hover-bg: #115442;
+    --bs-btn-hover-border-color: #115442;
+}
+
+/* 共用文字與頁尾 */
+.lead {
+    color: #536273;
+}
+
+footer {
+    font-size: 0.875rem;
+}
+
+/* 登入表單 */
+.login-panel {
+    max-width: 420px;
+}
+
+/* 管理導覽 */
+.admin-nav {
+    background: #f5f8f7;
+}
+
+.admin-nav a {
+    padding: 0.5rem 0.75rem;
+    display: inline-block;
+}
+
+/* 欄位驗證 */
+.field-error {
+    color: #a92332;
+    font-size: 0.9rem;
+}
+
+/* 文章全文 */
+.prose {
+    max-width: 780px;
+    margin: auto;
+}
+
+.prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
+
+.prose pre {
+    background: #142c36;
+    color: #eef6f3;
+    padding: 1.25rem;
+    border-radius: 10px;
+    overflow: auto;
+}
+
+.prose :not(pre) > code {
+    background: #f0f4f3;
+    color: #155944;
+    padding: 0.15rem 0.35rem;
+    border-radius: 4px;
+}
+
+.prose h2 {
+    margin-top: 2.5rem;
+}
+
+.prose blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 1rem;
+    color: #536273;
+}
+
+/* Markdown 編輯表單 */
+textarea.font-monospace {
+    font-size: 0.9rem;
+}
+
+/* 文章列表與標籤 */
+.post-card {
+    border-top: 1px solid #dfe6e3;
+    padding: 1.75rem 0;
+}
+
+.tag {
+    display: inline-block;
+    background: #eef5f1;
+    color: #285e4e;
+    border-radius: 5px;
+    padding: 0.12rem 0.55rem;
+    font-size: 0.875rem;
+}
+
+/* 統計卡片與表格 */
+.stat {
+    border: 1px solid #dfe6e3;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.stat strong {
+    font-size: 2rem;
+    display: block;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* 首頁版面與空狀態 */
+.hero {
+    padding: 3.5rem 0 2.5rem;
+}
+
+.hero h1 {
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    max-width: 800px;
+}
+
+.empty-state {
+    background: #f6f8f7;
+    padding: 2.5rem;
+    border-radius: 12px;
+}
+
+/* Markdown 預覽與圖片 */
+.preview-panel {
+    min-height: 300px;
+    max-height: 650px;
+    overflow: auto;
+    padding: 1rem;
+    border: 1px solid #dfe6e3;
+    border-radius: 8px;
+}
+
+.image-thumb {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    background: #f5f8f7;
+}
+
+/* 共用文字與下拉選單 */
+.text-secondary {
+    color: #536273 !important;
+}
+
+select.form-select {
+    padding-right: 2.5rem;
+    background-image: url('/css/chevron.svg');
+}
+
+/* 響應式設計 */
+@media (max-width: 575px) {
+    .hero {
+        padding-top: 2rem;
+    }
+
+    .table {
+        font-size: 0.9rem;
+    }
+
+    .container {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}

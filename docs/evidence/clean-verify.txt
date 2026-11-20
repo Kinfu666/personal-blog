@@ -1,0 +1,6 @@
+Command: mvnw.cmd -B -ntp -Dmaven.repo.local=<本機快取目錄> clean verify
+Tests run: 28, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
+Completed: 2026-11-20 16:43:28 Asia/Taipei
+Time: 26.401 s
+Artifact: target/personal-blog.jar

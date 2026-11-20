@@ -1,0 +1,25 @@
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.cmd]
+end_of_line = crlf
+
+[*.md]
+# Markdown 的雙空格換行具有語意，交由作者保留。
+trim_trailing_whitespace = false
+
+[src/main/resources/static/vendor/**]
+# 第三方資源保留原始格式。
+charset = unset
+indent_style = unset
+indent_size = unset
+end_of_line = unset
+insert_final_newline = unset
+trim_trailing_whitespace = unset

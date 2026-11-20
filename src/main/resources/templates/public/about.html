@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/layout :: head('關於本站')}"></head>
+
+    <body>
+        <header th:replace="~{fragments/layout :: nav}"></header>
+
+        <main class="container py-5">
+            <article class="prose">
+                <p class="eyebrow">ABOUT THIS BLOG</p>
+                <h1>把理解，留成可以重讀的文字。</h1>
+                <p class="lead my-4">技術札記是一個個人技術部落格的展示專案，聚焦 Java、後端開發、資料庫與開發工具。</p>
+                <h2 class="h4">從問題開始寫作</h2>
+                <p>
+                    文章從具體情境出發，解釋設計選擇、實作步驟與容易忽略的邊界。程式碼範例是閱讀的起點，也歡迎動手修改、測試與比較。
+                </p>
+                <h2 class="h4">本站的內容與技術</h2>
+                <p>
+                    展示內容由 AI
+                    輔助撰寫並隨程式打包，不代表任何人的職涯經歷。圖片為可重現的本地原創圖示；網站執行時不呼叫 AI
+                    或外部內容服務。
+                </p>
+                <p>
+                    網站採 Java 21、Spring Boot、Spring MVC、Thymeleaf 與
+                    SQLite，透過簡單清楚的分層展示文章管理、安全登入與資料持久化。
+                </p>
+                <a class="btn btn-primary mt-3" th:href="@{/}">開始閱讀</a>
+            </article>
+        </main>
+
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </body>
+</html>

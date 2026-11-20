@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/layout :: head('首頁')}"></head>
+
+    <body>
+        <header th:replace="~{fragments/layout :: nav}"></header>
+
+        <main class="container">
+            <section class="hero">
+                <p class="eyebrow">JAVA / BACKEND / NOTES</p>
+                <h1>在實作中，整理知識。</h1>
+                <p class="lead mt-3">
+                    從程式碼到系統設計，記錄每一次理解與練習。<br>關於 Java、後端開發與資料庫的技術札記。
+                </p>
+            </section>
+            <div class="row g-5">
+                <section class="col-lg-8" aria-label="文章清單">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="h4 mb-0">最新文章</h2>
+                        <span class="text-secondary" th:text="${posts.totalElements + ' 篇文章'}"></span>
+                    </div>
+                    <p th:if="${posts.empty}" class="empty-state">
+                        目前沒有符合條件的文章。<a th:href="@{/}">清除篩選條件</a>
+                    </p>
+                    <article th:each="post:${posts}" class="post-card">
+                        <div class="d-flex flex-wrap gap-3 text-secondary mb-2">
+                            <a
+                                th:href="@{/(q=${q},category=${post.category.id},tag=${tag})}"
+                                th:text="${post.category.name}"
+                            ></a>
+                            <time th:text="${post.date()}"></time>
+                        </div>
+                        <h2 class="h4">
+                            <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}"></a>
+                        </h2>
+                        <p class="text-secondary mt-3" th:text="${post.summary}"></p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a
+                                class="tag"
+                                th:each="item:${post.tags}"
+                                th:href="@{/(q=${q},category=${category},tag=${item.id})}"
+                                th:text="${item.name}"
+                            ></a>
+                        </div>
+                    </article>
+                    <nav th:if="${posts.totalPages > 1}" class="d-flex gap-4 border-top pt-4" aria-label="文章分頁">
+                        <a
+                            th:if="${posts.hasPrevious()}"
+                            th:href="@{/(q=${q},category=${category},tag=${tag},page=${posts.number - 1})}"
+                        >
+                            上一頁
+                        </a>
+                        <span th:text="${'第 ' + (posts.number + 1) + ' / ' + posts.totalPages + ' 頁'}"></span>
+                        <a
+                            th:if="${posts.hasNext()}"
+                            th:href="@{/(q=${q},category=${category},tag=${tag},page=${posts.number + 1})}"
+                        >
+                            下一頁
+                        </a>
+                    </nav>
+                </section>
+                <aside class="col-lg-4">
+                    <div class="border rounded-3 p-4">
+                        <h2 class="h5 mb-3">找一篇札記</h2>
+                        <form th:action="@{/}" method="get">
+                            <div class="mb-3">
+                                <label for="q" class="form-label">關鍵字</label>
+                                <input
+                                    id="q"
+                                    name="q"
+                                    class="form-control"
+                                    th:value="${q}"
+                                    placeholder="搜尋標題、摘要與全文"
+                                    maxlength="200"
+                                >
+                            </div>
+                            <div class="mb-3">
+                                <label for="category" class="form-label">分類</label>
+                                <select id="category" name="category" class="form-select">
+                                    <option value="">所有分類</option>
+                                    <option
+                                        th:each="item:${categories}"
+                                        th:value="${item.id}"
+                                        th:text="${item.name}"
+                                        th:selected="${category == item.id}"
+                                    ></option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="tag" class="form-label">標籤</label>
+                                <select id="tag" name="tag" class="form-select">
+                                    <option value="">所有標籤</option>
+                                    <option
+                                        th:each="item:${tags}"
+                                        th:value="${item.id}"
+                                        th:text="${item.name}"
+                                        th:selected="${tag == item.id}"
+                                    ></option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary w-100 mb-2">搜尋文章</button>
+                            <a class="btn btn-outline-secondary w-100" th:href="@{/}">清除條件</a>
+                        </form>
+                    </div>
+                    <div class="p-4 mt-3">
+                        <h2 class="h6">持續累積，小步前進。</h2>
+                        <p class="text-secondary mb-0">
+                            這裡的每篇文章都是一個可練習的起點。讀完之後，試著在自己的環境跑一次。
+                        </p>
+                    </div>
+                </aside>
+            </div>
+        </main>
+
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </body>
+</html>

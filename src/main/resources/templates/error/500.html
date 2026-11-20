@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/layout :: head('系統暫時無法完成請求')}"></head>
+
+    <body>
+        <header th:replace="~{fragments/layout :: nav}"></header>
+
+        <main class="container py-5">
+            <p class="eyebrow">500 / INTERNAL SERVER ERROR</p>
+            <h1>系統暫時無法完成請求</h1>
+            <p>請稍後再試。若問題持續發生，請將操作情境與錯誤編號提供給管理員。</p>
+            <p th:if="${reference}" th:text="${'錯誤編號：' + reference}"></p>
+            <a class="btn btn-primary" th:href="@{/}">返回首頁</a>
+        </main>
+
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </body>
+</html>

@@ -1,0 +1,28 @@
+{
+    "result": "PASS",
+    "jar": "target/personal-blog.jar",
+    "work_directory": "target/jar-smoke-05f6684da3704295bbe98473214105af",
+    "first_start": {
+        "posts": 15,
+        "categories": 4,
+        "tags": 10,
+        "images": 6,
+        "users": 1
+    },
+    "restart_posts": 14,
+    "restart_categories": 5,
+    "restart_tags": 11,
+    "persisted_images": 6,
+    "checks": [
+        "JAR 首次初始化",
+        "每頁六篇",
+        "草稿與無效網址 404",
+        "真實 CSRF 403 頁面",
+        "登入與後台保護",
+        "HTTP 寫入",
+        "重啟不重置密碼",
+        "修改與刪除持久化",
+        "圖片雜湊不變",
+        "本地 Bootstrap 資源"
+    ]
+}

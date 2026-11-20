@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/layout :: head('管理員登入')}"></head>
+
+    <body>
+        <header th:replace="~{fragments/layout :: nav}"></header>
+
+        <main class="container py-5">
+            <div class="login-panel mx-auto">
+                <p class="eyebrow">ADMINISTRATOR</p>
+                <h1 class="h2 mb-4">管理員登入</h1>
+                <p>登入後即可整理文章與素材。</p>
+                <p th:if="${param.error}" class="alert alert-danger" role="alert">帳號或密碼不正確，請再試一次。</p>
+                <form th:action="@{/login}" method="post">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">帳號</label>
+                        <input
+                            id="username"
+                            name="username"
+                            class="form-control"
+                            required
+                            autocomplete="username"
+                            autofocus
+                        >
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label">密碼</label>
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            class="form-control"
+                            required
+                            autocomplete="current-password"
+                        >
+                    </div>
+                    <button class="btn btn-primary w-100">登入</button>
+                </form>
+                <p th:if="${demoMode}" class="text-secondary mt-4">本機展示模式帳號：admin<br>密碼：DemoBlog!2026</p>
+            </div>
+        </main>
+
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </body>
+</html>

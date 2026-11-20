@@ -1,0 +1,169 @@
+[
+    {
+        "file": "01-record.md",
+        "title": "Java 21 Record：讓資料傳遞物件表達真正的意圖",
+        "summary": "以文章摘要 DTO 為例，理解 record 的值語意、淺層不可變與集合防禦複製，建立清楚的資料邊界。",
+        "category": "Java",
+        "tags": [
+            "Java 21",
+            "MVC"
+        ],
+        "status": "PUBLISHED"
+    },
+    {
+        "file": "02-optional.md",
+        "title": "Optional 的邊界：把缺少資料當成明確結果",
+        "summary": "從查詢不存在的文章出發，說明 Optional 的回傳設計、延遲預設值，以及哪些位置不適合使用 Optional。",
+        "category": "Java",
+        "tags": [
+            "Java 21",
+            "測試"
+        ],
+        "status": "PUBLISHED"
+    },
+    {
+        "file": "03-time.md",
+        "title": "Instant 與時區：時間儲存和畫面顯示分開思考",
+        "summary": "建立 UTC 儲存、臺北顯示的時間流程，並處理發布時間、字串排序與測試固定時鐘等常見細節。",
+        "category": "Java",
+        "tags": [
+            "Java 21",
+            "SQLite"
+        ],
+        "status": "PUBLISHED"
+    },
+    {
+        "file": "04-mvc.md",
+        "title": "Spring MVC 分層：Controller 為什麼應該保持精簡",
+        "summary": "用新增文章的完整流程，拆解 Controller、Service、Repository 與 DTO 的責任，避免交易與畫面邏輯互相滲透。",
+        "category": "後端開發",
+        "tags": [
+            "Spring Boot",
+            "MVC"
+        ],
+        "status": "PUBLISHED"
+    },
+    {
+        "file": "05-validation.md",
+        "title": "表單驗證的兩道邊界：Bean Validation 與商業規則",
+        "summary": "必填與長度不代表資料一定可寫入。透過分類存在性、名稱重複與表單回填，設計可追蹤的驗證流程。",
+        "category": "後端開發",
+        "tags": [
+            "Spring Boot",
+            "MVC",
+            "測試"
+        ],
+        "status": "PUBLISHED"
+    },
+    {
+        "file": "06-security.md",
+        "title": "Session、CSRF 與登入安全：一個後台表單的旅程",
+        "summary": "從登入前後的 Session 到 POST 的 CSRF token，理解瀏覽器身分驗證與寫入保護各自處理的威脅。",
+        "category": "後端開發",
+        "tags": [
+            "Security",
+            "Spring Boot"
+        ],
+        "status": "PUBLISHED"
+    },
+    {
+        "file": "07-sqlite.md",
+        "title": "SQLite 外鍵不是宣告就會生效：連線設定與驗證",
+        "summary": "解釋 SQLite 每條連線的外鍵設定、busy timeout 與單寫入者限制，並用真正的資料庫測試驗證約束。",
+        "category": "資料庫",
+        "tags": [
+            "SQLite",
+            "測試"
+        ],
+        "status": "PUBLISHED"
+    },
+    {
+        "file": "08-jpa.md",
+        "title": "JPA 分頁遇上多對多：先取得一頁，再載入標籤",
+        "summary": "文章列表同時需要分頁與多個標籤時，如何避開 collection fetch join 的計數與記憶體分頁陷阱。",
+        "category": "資料庫",
+        "tags": [
+            "JPA",
+            "Spring Boot"
+        ],
+        "status": "PUBLISHED"
+    },
+    {
+        "file": "09-transactions.md",
+        "title": "資料庫交易之外：圖片檔案如何處理回滾",
+        "summary": "資料庫無法回滾一般檔案。以圖片上傳與刪除為例，設計補償、暫存狀態與啟動修復的順序。",
+        "category": "資料庫",
+        "tags": [
+            "SQLite",
+            "JPA",
+            "測試"
+        ],
+        "status": "PUBLISHED"
+    },
+    {
+        "file": "10-maven.md",
+        "title": "Maven Wrapper 與可重現建置：從原始碼到可執行 JAR",
+        "summary": "固定 Maven、Spring Boot 與相容依賴版本，釐清 test、package、verify 的用途，讓別人能重現同一份專案。",
+        "category": "開發工具",
+        "tags": [
+            "Maven",
+            "Spring Boot"
+        ],
+        "status": "PUBLISHED"
+    },
+    {
+        "file": "11-git.md",
+        "title": "Git 提交前的整理：讓差異可以被理解與審查",
+        "summary": "從忽略執行期資料、檢查 staged diff 到撰寫提交訊息，建立小而完整的版本控制習慣。",
+        "category": "開發工具",
+        "tags": [
+            "Git",
+            "測試"
+        ],
+        "status": "PUBLISHED"
+    },
+    {
+        "file": "12-markdown.md",
+        "title": "安全渲染 Markdown：解析、清理與圖片授權",
+        "summary": "Markdown 不是安全邊界。以共用 renderer、協定白名單與受控圖片路徑，讓即時預覽和公開頁保持一致。",
+        "category": "後端開發",
+        "tags": [
+            "Markdown",
+            "Security"
+        ],
+        "status": "PUBLISHED"
+    },
+    {
+        "file": "13-testing.md",
+        "title": "整合測試筆記：用 SQLite 暫存檔驗證真正行為",
+        "summary": "比較純單元測試與整合測試，規劃資料隔離、外鍵測試與 HTTP 驗證，避免只驗證替身的假設。",
+        "category": "開發工具",
+        "tags": [
+            "測試",
+            "SQLite"
+        ],
+        "status": "DRAFT"
+    },
+    {
+        "file": "14-index.md",
+        "title": "索引設計練習：從公開文章查詢看複合索引",
+        "summary": "依公開狀態、發布時間與 ID 排序的查詢，練習閱讀查詢計畫及評估複合索引的順序與成本。",
+        "category": "資料庫",
+        "tags": [
+            "SQLite",
+            "JPA"
+        ],
+        "status": "DRAFT"
+    },
+    {
+        "file": "15-stream.md",
+        "title": "Stream 的使用尺度：讓資料轉換保持可讀",
+        "summary": "以標籤去重與 DTO 映射為例，討論 Stream 的純轉換、副作用風險與適合改回迴圈的情境。",
+        "category": "Java",
+        "tags": [
+            "Java 21",
+            "測試"
+        ],
+        "status": "DRAFT"
+    }
+]

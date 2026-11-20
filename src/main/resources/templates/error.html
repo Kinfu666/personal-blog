@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/layout :: head('無法完成請求')}"></head>
+
+    <body>
+        <header th:replace="~{fragments/layout :: nav}"></header>
+
+        <main class="container py-5">
+            <h1>無法完成這項請求</h1>
+            <p>請確認操作方式，或回到首頁重新開始。</p>
+            <a th:href="@{/}">返回首頁</a>
+        </main>
+
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </body>
+</html>
